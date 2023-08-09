@@ -85,30 +85,10 @@ function(repo_url, branchName, commit) {
 
 get_imports <- function(path){
 
-  # remove string like ( >= 1.0.0) from listed packages
-  remove_parentheses <- function(input_list) {
-    output_list <- gsub("\\s*\\(.*?\\)", "", input_list)
-    output_list
-  }
+  output <- desc::description$new(path) |>
+    subset(type == "Imports")
 
-  contents <- readLines(path)
-
-  contents <- remove_parentheses(contents)
-
-  imports_line <- grep("^Imports:", contents)
-
-
-  input_string <- paste(trimws(contents[(imports_line+1):length(contents)]),
-                        collapse = " ")
-
-  output <- regmatches(input_string,
-                       regexpr(".*?(?<!,)\\s", input_string, perl = TRUE))
-
-  # put the output in vector format to allow removing of base packages
-  output <- gsub(",", "\n", output) |>
-    textConnection() |>
-    readLines() |>
-    trimws()
+  output <- output$package
 
   remove_base(output)
 }

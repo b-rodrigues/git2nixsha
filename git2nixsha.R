@@ -86,7 +86,8 @@ function(repo_url, branchName, commit) {
 get_imports <- function(path){
 
   output <- desc::description$new(path)$get_deps() |>
-    subset(type %in% c("Imports", "LinkingTo"))
+              subset(type %in% c("Depends", "Imports", "LinkingTo")) |>
+              subset(package != "R")
 
   output <- output$package
 

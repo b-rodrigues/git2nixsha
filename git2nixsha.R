@@ -91,7 +91,7 @@ get_imports <- function(path){
 
   output <- output$package
 
-  output <- unique(remove_base(output))
+  output <- remove_base(unique(output))
 
   gsub('\\.', '_', output)
 }

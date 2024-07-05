@@ -1,17 +1,15 @@
 #* Return the sri hash of a path using `nix hash path --sri path`
 #* @param repo_url URL to Github repository
-#* @param branchName Branch to checkout
 #* @param commit Commit hash
 #* @get /hash
-function(repo_url, branchName, commit) {
-  hash_git <- function(repo_url, branchName, commit){
+function(repo_url, commit) {
+  hash_git <- function(repo_url, commit){
     path_to_repo <- paste0(tempdir(), "repo",
                            paste0(sample(letters, 5), collapse = ""))
 
     git2r::clone(
              url = repo_url,
-             local_path = path_to_repo,
-             branch = branchName
+             local_path = path_to_repo
            )
 
     git2r::checkout(path_to_repo, branch = commit)
@@ -73,7 +71,7 @@ function(repo_url, branchName, commit) {
   }
 
   if(grepl("github", repo_url)){
-    hash_git(repo_url, branchName, commit)
+    hash_git(repo_url, commit)
   } else if(grepl("cran.*Archive.*", repo_url)){
     hash_cran(repo_url)
   } else {

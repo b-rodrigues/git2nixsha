@@ -17,7 +17,7 @@ function(repo_url, commit) {
     unlink(paste0(path_to_repo, "/.git"), recursive = TRUE, force = TRUE)
 
     command <- paste0("nix-hash --type sha256 --sri ", path_to_repo)
-    
+
     sri_hash <- system(command, intern = TRUE)
 
     deps <- get_imports(paste0(path_to_repo, "/DESCRIPTION"))
@@ -104,6 +104,19 @@ remove_base <- function(list_imports){
 
 }
 
+# to test in the terminal using curl
+# curl -X GET "http://127.0.0.1:5471/hash?repo_url=https%3A%2F%2Fgithub.com%2Feliocamp%2FmetR&commit=1dd5d391d5da6a80fde03301671aea5582643914" -H  "accept: */*"
+
+# you should get
+
+# {
+#"sri_hash": [
+#  "sha256-CLTX347KwwsNyuX84hw2/n/9HwQHBYQrGDu7jFctGO4="
+#  ],
+#"deps": [
+#  "checkmate data_table digest Formula formula_tools ggplot2 gtable memoise plyr scales sf stringr purrr isoband lubridate"
+#  ]
+#}
 
 #testthat::expect_equal(
 #            get_imports("https://github.com/tidyverse/dplyr",

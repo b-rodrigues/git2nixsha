@@ -1,24 +1,22 @@
 #* Return the sri hash of a path using `nix hash path --sri path`
 #* @param repo_url URL to Github repository
-#* @param branchName Branch to checkout
 #* @param commit Commit hash
 #* @get /hash
-function(repo_url, branchName, commit) {
-  hash_git <- function(repo_url, branchName, commit){
+function(repo_url, commit) {
+  hash_git <- function(repo_url, commit){
     path_to_repo <- paste0(tempdir(), "repo",
                            paste0(sample(letters, 5), collapse = ""))
 
     git2r::clone(
              url = repo_url,
-             local_path = path_to_repo,
-             branch = branchName
+             local_path = path_to_repo
            )
 
     git2r::checkout(path_to_repo, branch = commit)
 
     unlink(paste0(path_to_repo, "/.git"), recursive = TRUE, force = TRUE)
 
-    command <- paste0("nix hash path --sri ", path_to_repo)
+    command <- paste0("nix-hash --type sha256 --sri ", path_to_repo)
 
     sri_hash <- system(command, intern = TRUE)
 
@@ -56,8 +54,8 @@ function(repo_url, branchName, commit) {
 
     system(tar_command)
 
-    command <- paste0("nix hash path --sri ", path_to_src)
-
+    command <- paste0("nix-hash --type sha256 --sri ", path_to_src)
+    
     sri_hash <- system(command, intern = TRUE)
 
     deps <- get_imports(paste0(path_to_src, "/DESCRIPTION"))
@@ -73,7 +71,7 @@ function(repo_url, branchName, commit) {
   }
 
   if(grepl("github", repo_url)){
-    hash_git(repo_url, branchName, commit)
+    hash_git(repo_url, commit)
   } else if(grepl("cran.*Archive.*", repo_url)){
     hash_cran(repo_url)
   } else {
@@ -106,6 +104,19 @@ remove_base <- function(list_imports){
 
 }
 
+# to test in the terminal using curl
+# curl -X GET "http://127.0.0.1:5471/hash?repo_url=https%3A%2F%2Fgithub.com%2Feliocamp%2FmetR&commit=1dd5d391d5da6a80fde03301671aea5582643914" -H  "accept: */*"
+
+# you should get
+
+# {
+#"sri_hash": [
+#  "sha256-CLTX347KwwsNyuX84hw2/n/9HwQHBYQrGDu7jFctGO4="
+#  ],
+#"deps": [
+#  "checkmate data_table digest Formula formula_tools ggplot2 gtable memoise plyr scales sf stringr purrr isoband lubridate"
+#  ]
+#}
 
 #testthat::expect_equal(
 #            get_imports("https://github.com/tidyverse/dplyr",

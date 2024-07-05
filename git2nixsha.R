@@ -16,8 +16,8 @@ function(repo_url, commit) {
 
     unlink(paste0(path_to_repo, "/.git"), recursive = TRUE, force = TRUE)
 
-    command <- paste0("nix hash path --sri ", path_to_repo)
-
+    command <- paste0("nix-hash --type sha256 --sri ", path_to_repo)
+    
     sri_hash <- system(command, intern = TRUE)
 
     deps <- get_imports(paste0(path_to_repo, "/DESCRIPTION"))
@@ -54,8 +54,8 @@ function(repo_url, commit) {
 
     system(tar_command)
 
-    command <- paste0("nix hash path --sri ", path_to_src)
-
+    command <- paste0("nix-hash --type sha256 --sri ", path_to_src)
+    
     sri_hash <- system(command, intern = TRUE)
 
     deps <- get_imports(paste0(path_to_src, "/DESCRIPTION"))

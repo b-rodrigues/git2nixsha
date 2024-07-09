@@ -1,10 +1,10 @@
 let
- pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/6d1c562d34b80f81165430c0e6c4c66c02c1d69d.tar.gz") {};
+ pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/3fdde11f18b73cc579c841e21cea8f6a8513c65f.tar.gz") {};
  system_packages = builtins.attrValues {
   inherit (pkgs) R glibcLocalesUtf8 nix;
 };
  r_packages = builtins.attrValues {
-  inherit (pkgs.rPackages) git2r plumber desc;
+  inherit (pkgs.rPackages) sys plumber curl;
 };
   in
   pkgs.mkShell {

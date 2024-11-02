@@ -1,5 +1,5 @@
 let
- pkgs = import (fetchTarball "https://github.com/rstats-on-nix/nixpkgs/archive/3fdde11f18b73cc579c841e21cea8f6a8513c65f.tar.gz") {};
+ pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/194846768975b7ad2c4988bdb82572c00222c0d7.tar.gz") {};
 
  system_packages = builtins.attrValues {
   inherit (pkgs) R glibcLocalesUtf8 nix;
@@ -13,9 +13,9 @@ let
     (pkgs.rPackages.buildRPackage {
       name = "rix";
       src = pkgs.fetchgit {
-        url = "https://github.com/b-rodrigues/rix/";
-        rev = "699372eaadef9a24b7f23121641ce97754fc6659";
-        sha256 = "sha256-SsC9sIfCyISOhBzMTJNCCoAcGFGu3p/S/D6uJnTrMnQ=";
+        url = "https://github.com/ropensci/rix/";
+        rev = "0d28163f217fa36ccf910ac9af0456838ca0e4b8";
+        sha256 = "sha256-IpZSIyNub+U9vh1mqHiC3WxcmqoUadkblxdjLeTLmp4=";
       };
       propagatedBuildInputs = builtins.attrValues {
         inherit (pkgs.rPackages) 

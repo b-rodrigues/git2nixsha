@@ -1,6 +1,14 @@
--  install software: `sudo apt install certbot python3-certbot-nginx`
--  obtain and install an SSL certificate for the domain git2nixsha.dev using Certbot and NGINX: `sudo certbot --nginx -d git2nixsha.dev`
--  create following file: `/etc/nginx/sites-available/git2nixsha.de
+This repository contains the code and instructions to build and run an R plumber api on digital ocean with a custom domain and with ssh enabled.
+
+- Clone the repo
+- Install Nix (using the Determinate Nix installer for example: https://github.com/DeterminateSystems/nix-installer?tab=readme-ov-file#install-nix
+- Build the environment: `nix-build default.nix` (you can omit the `default.nix`)
+- You can now run the api using the included bash script: `./run_api.sh` (you likely will need to adapt the paths therein to point to the R script)
+- I use `run-one` to avoid running multiple instances of the api: `sudo apt-get install run-one` then `nohup run-one nix_hash_api/run_api.sh &`
+- To serve the api with a custom domain and with ssh enabled, you'll need `nginxg` and get a certificate
+- Install software: `sudo apt install certbot python3-certbot-nginx`
+- Obtain and install an SSL certificate for the domain git2nixsha.dev using Certbot and NGINX: `sudo certbot --nginx -d git2nixsha.dev`
+- Create following file: `/etc/nginx/sites-available/git2nixsha.de
 
 ```
 # HTTP server block to redirect HTTP to HTTPS
@@ -34,5 +42,7 @@ server {
 }
 ```
 
-- firewall rule: `sudo ufw allow 'Nginx Full'`
-- reload nginx: `sudo systemctl reload nginx`
+- Add the following firewall rule: `sudo ufw allow 'Nginx Full'`
+- Reload nginx: `sudo systemctl reload nginx`
+
+If you want to use docker instead I highly recommend you follow: https://github.com/andrewheiss/docker-plumber-nginx-letsencrypt

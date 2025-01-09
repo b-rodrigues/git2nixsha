@@ -12,23 +12,11 @@ function(repo_url, commit) {
 
 # you should get
 
-# {
-#"sri_hash": [
-#  "sha256-CLTX347KwwsNyuX84hw2/n/9HwQHBYQrGDu7jFctGO4="
-#  ],
-#"deps": [
-#  "checkmate data_table digest Formula formula_tools ggplot2 gtable memoise plyr scales sf stringr purrr isoband lubridate"
-#  ]
+#{
+#    "sri_hash": ["sha256-CLTX347KwwsNyuX84hw2/n/9HwQHBYQrGDu7jFctGO4="],
+#    "deps": {
+#        "package": ["metR"],
+#        "imports": ["checkmate", "data_table", "digest", "Formula", "formula_tools", "ggplot2", "gtable", "memoise", "plyr", "scales", "sf", "stringr", "purrr", "isoband", "lubridate"],
+#        "remotes": {}
+#    }
 #}
-
-#testthat::expect_equal(
-#            get_imports("https://github.com/tidyverse/dplyr",
-#                        "1832ffbbdf3a85145b1545b84ee7b55a99fbae98"),
-#            "cli generics glue lifecycle magrittr pillar R6 rlang tibble tidyselect vctrs"
-#          )
-#
-#testthat::expect_equal(
-#            get_imports("https://github.com/rap4all/housing/",
-#                        "1c860959310b80e67c41f7bbdc3e84cef00df18e"),
-#            "dplyr ggplot2 janitor purrr readxl rlang rvest stringr tidyr"
-#          )
